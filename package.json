@@ -1,0 +1,37 @@
+{
+  "name": "serverless-graphql-netlify-starter",
+  "version": "1.0.0",
+  "description": "The simplest serverless GraphQL API deployed on Netlify possible.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "bundle": "cpx src/**/* functions/bundle",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stemmlerjs/serverless-graphql-netlify-starter.git"
+  },
+  "keywords": [
+    "graphql",
+    "api",
+    "netlify",
+    "serverless"
+  ],
+  "author": "Khalil Stemmler <khalil@apollographql.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stemmlerjs/serverless-graphql-netlify-starter/issues"
+  },
+  "homepage": "https://github.com/stemmlerjs/serverless-graphql-netlify-starter#readme",
+  "dependencies": {
+    "apollo-server": "^2.10.1",
+    "apollo-server-lambda": "^2.10.1",
+    "covid19-api": "^1.1.5",
+    "cpx": "^1.5.0",
+    "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
