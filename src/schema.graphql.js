@@ -5,6 +5,12 @@ const typeDefs =
   ReportByCountry(country: String!): ReportByCountry
 }
 
+type Query {
+  deaths: Death
+  reports: Report
+  fatalityRateByAge(): fatalityRateByAge
+}
+
 type Death {
   id: ID!
   deathCount: String!
@@ -67,4 +73,8 @@ type ReportTable {
   Country: String
   Serious_Critical: String
   TotCases_1M_Pop: String
+}
+
+type fatalityRateByAge {
+  id: ID!
 }`
