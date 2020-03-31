@@ -8,6 +8,8 @@ const typeDefs =
   deaths: Death
   reports: Report
   ReportByCountry(country: String!): ReportByCountry
+  fatalityRateByAge: fatalityRateByAge
+  coronavirusHasSpread: coronavirusHasSpread
 }
 
 type Death {
@@ -72,6 +74,29 @@ type ReportTable {
   Country: String
   Serious_Critical: String
   TotCases_1M_Pop: String
+}
+
+type fatalityRate {
+  Age: String
+  DeathRateConfirmedCases: String
+  DeathRateAllCases: String 
+}
+
+type fatalityRateByAge {
+  id: ID!
+  fatalityRate: [fatalityRate]
+}
+
+type hasSpread {
+  Country: String
+  Cases: String
+  Deaths: String
+  Region: String 
+}
+
+type coronavirusHasSpread{
+  id: ID!
+  hasSpread: [hasSpread]
 }`
 
 const resolvers = {
