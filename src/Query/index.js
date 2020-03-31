@@ -34,6 +34,18 @@ const Query = {
     const id = uuid();
     return { id, hasSpread: spread[0] }
   },
+  getGlobalDataWithCountry: async (parent, { country }, context) => {
+    let countryData = [];
+    for (let i = 0; i < country.length; i += 1) {
+      const reports = await PluginManager.getReportsByCountries(country[i]);
+      countryData = countryData.concat(reports[0]);
+    }
+    const reportData = await PluginManager.getReports();
+    let report = reportData[0];
+    const id = uuid();
+    report = report.concat(countryData);
+    return { id, data: report };
+  }
 }
 
 module.exports = { Query }
