@@ -1,8 +1,3 @@
-
-const ApolloServer = require('apollo-server').ApolloServer
-const ApolloServerLambda = require('apollo-server-lambda').ApolloServer
-const { gql } = require('apollo-server-lambda');
-const Query = require('./Query');
 const typeDefs =
   `type Query {
   deaths: Death
@@ -73,27 +68,3 @@ type ReportTable {
   Serious_Critical: String
   TotCases_1M_Pop: String
 }`
-
-const resolvers = {
-  ...Query
-};
-
-function createLambdaServer() {
-  return new ApolloServerLambda({
-    typeDefs,
-    resolvers,
-    introspection: true,
-    playground: true,
-  });
-}
-
-function createLocalServer() {
-  return new ApolloServer({
-    typeDefs,
-    resolvers,
-    introspection: true,
-    playground: true,
-  });
-}
-
-module.exports = { createLambdaServer, createLocalServer }
