@@ -1,7 +1,7 @@
 # serverless-graphql-netlify-starter
 ⚡The simplest serverless GraphQL API deployed on Netlify possible
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/stemmlerjs/serverless-graphql-netlify-starter)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/vibhor-mungee/covid19-graphql)
 
 ## Installation
 
@@ -22,4 +22,4 @@ npm run start
 
 This project uses both `apollo-server` and `apollo-server-lambda` so that you can write your GraphQL resolvers and type definitions in one place, yet run GraphQL servers locally and serverlessly.
 
-Check out [server.js](https://github.com/stemmlerjs/serverless-graphql-netlify-starter/blob/master/src/server.js) for how it works.
+Check out [server.js](https://github.com/vibhor-mungee/covid19-graphql/blob/master/src/server.js) for how it works.
