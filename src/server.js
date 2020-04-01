@@ -11,6 +11,7 @@ const typeDefs =
   fatalityRateByAge: fatalityRateByAge
   coronavirusHasSpread: coronavirusHasSpread
   getGlobalDataWithCountry(country: [String]): getGlobalDataWithCountry
+  getDateWiseDataByCountry(country: String): getDateWiseDataByCountry
 }
 
 type Death {
@@ -109,6 +110,18 @@ type getData {
 type getGlobalDataWithCountry{
   id: ID!
   data: [getData]
+}
+
+type dateWiseData{
+  date: String
+  confirmed: String
+  deaths: String
+  recovered: String
+}
+
+type getDateWiseDataByCountry{
+  id: ID!
+  data: [dateWiseData]
 }`
 
 const resolvers = {

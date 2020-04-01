@@ -29,6 +29,7 @@
     "apollo-server-lambda": "^2.10.1",
     "covid19-api": "^1.1.5",
     "cpx": "^1.5.0",
+    "request": "^2.88.2",
     "uuid": "^7.0.2"
   },
   "devDependencies": {

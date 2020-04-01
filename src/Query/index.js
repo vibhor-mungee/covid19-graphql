@@ -1,5 +1,24 @@
 const PluginManager = require('covid19-api');
 const uuid = require('uuid/v4');
+const request = require('request');
+
+const getDateWiseReport = async () => {
+  return await new Promise(resolve =>
+    request({
+      url: `https://pomber.github.io/covid19/timeseries.json`,
+      method: 'get',
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }, (e, r, body) => {
+      if (!body) {
+        return resolve([]);
+      }
+
+      return resolve(JSON.parse(body));
+    }
+    ));
+};
 
 const Query = {
   deaths: async () => {
@@ -45,9 +64,22 @@ const Query = {
     const id = uuid();
     report = report.concat(countryData);
     return { id, data: report };
+  },
+  getDateWiseDataByCountry: async (parent, { country }, context) => {
+    let countryName = "";
+    if (country.toLowerCase().trim() === "south korea") {
+      countryName = "Korea, South";
+    } else if (country.toLowerCase().trim() === "uk") {
+      countryName = "United Kingdom";
+    } else if (country.toLowerCase().trim() === "us") {
+      countryName = "US";
+    } else {
+      countryName = country.toLowerCase().trim().split(' ').map((item) => item.charAt(0).toUpperCase() + item.substring(1)).join(' ').trim();
+    }
+    const reportData = await getDateWiseReport();
+    const id = uuid();
+    return { id, data: reportData[countryName] };
   }
 }
 
 module.exports = { Query }
-// const fatalityRateByAge = await PluginManager.getFatalityRateByAge()
-// const countriesWhereCoronavirusHasSpread = await PluginManager.getCountriesWhereCoronavirusHasSpread()
