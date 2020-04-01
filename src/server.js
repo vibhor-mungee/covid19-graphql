@@ -122,6 +122,7 @@ type dateWiseData{
 type getDateWiseDataByCountry{
   id: ID!
   data: [dateWiseData]
+  global: [dateWiseData]
 }`
 
 const resolvers = {
