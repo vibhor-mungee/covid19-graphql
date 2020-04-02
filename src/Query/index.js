@@ -87,18 +87,48 @@ const Query = {
   },
   getDateWiseDataByCountry: async (parent, { country }, context) => {
     let countryName = "";
-    if (country.toLowerCase().trim() === "south korea") {
-      countryName = "Korea, South";
-    } else if (country.toLowerCase().trim() === "uk") {
-      countryName = "United Kingdom";
-    } else if (country.toLowerCase().trim() === "us") {
-      countryName = "US";
+    let data = "";
+    let reportData = await getDateWiseReport();
+    if (country === "global") {
+      const reportKey = Object.keys(reportData);
+      let reportObj = {};
+      for (let i = 0; i < reportKey.length; i += 1) {
+        const mainReportArr = reportData[reportKey[i]];
+        for (let j = 0; j < mainReportArr.length; j += 1) {
+          if (mainReportArr[j].date in reportObj) {
+            reportObj[mainReportArr[j].date] = {
+              date: mainReportArr[j].date,
+              confirmed: reportObj[mainReportArr[j].date].confirmed + mainReportArr[j].confirmed,
+              deaths: reportObj[mainReportArr[j].date].deaths + mainReportArr[j].deaths,
+              recovered: reportObj[mainReportArr[j].date].recovered + mainReportArr[j].recovered,
+            }
+          } else {
+            reportObj[mainReportArr[j].date] = mainReportArr[j]
+          }
+        }
+      }
+
+      const reportObjKey = Object.keys(reportObj);
+      const globalData = [];
+      for (let g = 0; g < reportObjKey.length; g += 1) {
+        let globalObj = reportObj[reportObjKey[g]];
+        globalData.push(globalObj);
+      }
+      data = globalData;
     } else {
-      countryName = country.toLowerCase().trim().split(' ').map((item) => item.charAt(0).toUpperCase() + item.substring(1)).join(' ').trim();
+      if (country.toLowerCase().trim() === "south korea") {
+        countryName = "Korea, South";
+      } else if (country.toLowerCase().trim() === "uk") {
+        countryName = "United Kingdom";
+      } else if (country.toLowerCase().trim() === "us") {
+        countryName = "US";
+      } else {
+        countryName = country.toLowerCase().trim().split(' ').map((item) => item.charAt(0).toUpperCase() + item.substring(1)).join(' ').trim();
+      }
+      data = reportData[countryName];
     }
-    const reportData = await getDateWiseReport();
     const id = uuid();
-    return { id, data: reportData[countryName] };
+    return { id, data: data };
   },
   getCountryNews: async (parent, { country }, context) => {
     let countryCode = countries.getAlpha2Code(country, 'en');
