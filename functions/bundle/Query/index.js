@@ -1,6 +1,9 @@
 const PluginManager = require('covid19-api');
 const uuid = require('uuid/v4');
 const request = require('request');
+const countries = require("i18n-iso-countries");
+countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
+
 
 const getDateWiseReport = async () => {
   return await new Promise(resolve =>
@@ -15,6 +18,23 @@ const getDateWiseReport = async () => {
         return resolve([]);
       }
 
+      return resolve(JSON.parse(body));
+    }
+    ));
+};
+
+const getCountryWiseNews = async (country) => {
+  return await new Promise(resolve =>
+    request({
+      url: `https://newsapi.org/v2/top-headlines?apiKey=63749fa5401b47c38fc99a7efb35e65a&category=health&country=${country}&q=corona`,
+      method: 'get',
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }, (e, r, body) => {
+      if (!body) {
+        return resolve([]);
+      }
       return resolve(JSON.parse(body));
     }
     ));
@@ -108,7 +128,13 @@ const Query = {
       data = reportData[countryName];
     }
     const id = uuid();
-    return { id, data: data };
+    return { id, data: reportData[countryName] };
+  },
+  getCountryNews: async (parent, { country }, context) => {
+    let countryCode = countries.getAlpha2Code(country, 'en');
+    let result = await getCountryWiseNews(countryCode);
+    const id = uuid();
+    return { id, news: result.articles };
   }
 }
 

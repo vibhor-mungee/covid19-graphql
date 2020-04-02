@@ -12,6 +12,7 @@ const typeDefs =
   coronavirusHasSpread: coronavirusHasSpread
   getGlobalDataWithCountry(country: [String]): getGlobalDataWithCountry
   getDateWiseDataByCountry(country: String): getDateWiseDataByCountry
+  getCountryNews(country: String): getCountryNews
 }
 
 type Death {
@@ -122,7 +123,22 @@ type dateWiseData{
 type getDateWiseDataByCountry{
   id: ID!
   data: [dateWiseData]
-}`
+}
+
+type getCountryNews {
+  id: ID!
+  news: [news]
+}
+
+type news {
+  title: String
+  description: String
+  url: String
+  urlToImage: String
+  publishedAt: String
+  content: String
+}
+`
 
 const resolvers = {
   ...Query
