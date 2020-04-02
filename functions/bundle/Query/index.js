@@ -1,6 +1,6 @@
 // const PluginManager = require('covid19-api');
 const PluginManager = require('../covid19/src/api/index');
-const uuid = require('uuid/v4');
+import { v4 as uuid } from 'uuid';
 const request = require('request');
 const countries = require("i18n-iso-countries");
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"));

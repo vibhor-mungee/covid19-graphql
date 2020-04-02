@@ -4,7 +4,7 @@
   "description": "The simplest serverless GraphQL API deployed on Netlify possible.",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node functions/index.js",
     "develop": "nodemon",
     "bundle": "cpx 'src/**/*.js' functions/bundle",
     "test": "echo \"Error: no test specified\" && exit 1"
