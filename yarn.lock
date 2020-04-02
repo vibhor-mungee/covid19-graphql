@@ -1045,21 +1045,6 @@ cors@^2.8.4:
     object-assign "^4"
     vary "^1"
 
-covid19-api@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/covid19-api/-/covid19-api-1.1.5.tgz#5780fa2dc9be177758c7e885766d93b250612251"
-  integrity sha512-F+1sUWs7dq/U+yLcPyY4/Jo6Fvav8DbN0jsFwFP5rLyO5jLty0HQsh1LjdpaaSbVOJaLTgBsHENmI+a8siDjOg==
-  dependencies:
-    axios "^0.19.2"
-    cheerio "^1.0.0-rc.3"
-    cloudscraper "^4.6.0"
-    csvtojson "^2.0.10"
-    https "^1.0.0"
-    nodemon "^2.0.2"
-    path "^0.12.7"
-    request "^2.88.2"
-    tabletojson "^2.0.3"
-
 cpx@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/cpx/-/cpx-1.5.0.tgz#185be018511d87270dedccc293171e37655ab88f"
