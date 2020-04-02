@@ -128,7 +128,7 @@ const Query = {
       data = reportData[countryName];
     }
     const id = uuid();
-    return { id, data: reportData[countryName] };
+    return { id, data: data };
   },
   getCountryNews: async (parent, { country }, context) => {
     let countryCode = countries.getAlpha2Code(country, 'en');
