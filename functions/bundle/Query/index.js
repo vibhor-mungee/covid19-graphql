@@ -3,6 +3,9 @@ const PluginManager = require('../covid19/src/api/index');
 const uuid = require('uuid/v4');
 const request = require('request');
 const countries = require("i18n-iso-countries");
+const NodeCache = require("node-cache");
+
+const myCache = new NodeCache();
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
 
 
@@ -132,10 +135,16 @@ const Query = {
     return { id, data: data };
   },
   getCountryNews: async (parent, { country }, context) => {
-    let countryCode = countries.getAlpha2Code(country, 'en');
-    let result = await getCountryWiseNews(countryCode);
-    const id = uuid();
-    return { id, news: result.articles };
+    const cache = myCache.get(country);
+    let id = uuid();
+    if (!cache) {
+      const ttl = 60 * 60 * 6;
+      let countryCode = countries.getAlpha2Code(country, 'en');
+      let result = await getCountryWiseNews(countryCode);
+      myCache.set(country, result.articles, ttl);
+      return { id, news: result.articles };
+    }
+    return { id: "cache", news: cache }
   }
 }
 
