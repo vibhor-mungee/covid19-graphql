@@ -4,6 +4,7 @@ const uuid = require('uuid/v4');
 const request = require('request');
 const countries = require("i18n-iso-countries");
 const NodeCache = require("node-cache");
+const scrapper = require("../Scrapper/index");
 
 const myCache = new NodeCache();
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
@@ -167,6 +168,11 @@ const Query = {
       return { id, news: result.articles };
     }
     return { id: `${country} cache`, news: cache }
+  },
+  getStateWiseRecordOfIndia: async () => {
+    const stateData = await scrapper.stateWiseData();
+    const id = uuid();
+    return { id, state: stateData };
   }
 }
 
