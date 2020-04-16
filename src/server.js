@@ -13,6 +13,7 @@ const typeDefs =
   getGlobalDataWithCountry(country: [String]): getGlobalDataWithCountry
   getDateWiseDataByCountry(country: String): getDateWiseDataByCountry
   getCountryNews(country: String): getCountryNews
+  getStateWiseRecordOfIndia: getStateWiseRecordOfIndia
 }
 
 type Death {
@@ -137,6 +138,18 @@ type news {
   urlToImage: String
   publishedAt: String
   content: String
+}
+
+type getStateWiseRecordOfIndia {
+  id: ID!
+  state: [stateData]
+}
+
+type stateData {
+  name: String
+  confirmed: String
+  death: String
+  recovered: String
 }
 `
 

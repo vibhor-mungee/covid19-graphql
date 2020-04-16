@@ -1,9 +1,10 @@
 // const PluginManager = require('covid19-api');
 const PluginManager = require('../covid19/src/api/index');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const request = require('request');
 const countries = require("i18n-iso-countries");
 const NodeCache = require("node-cache");
+const scrapper = require("../Scrapper/index");
 
 const myCache = new NodeCache();
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
@@ -28,14 +29,26 @@ const getDateWiseReport = async () => {
 };
 
 const getCountryWiseNews = async (country) => {
-  return await new Promise(resolve =>
-    request({
+  let headers = "";
+  if (country) {
+    headers = {
       url: `https://newsapi.org/v2/top-headlines?apiKey=63749fa5401b47c38fc99a7efb35e65a&category=health&country=${country}&q=corona`,
       method: 'get',
       headers: {
         "Content-Type": "application/json"
       },
-    }, (e, r, body) => {
+    }
+  } else {
+    headers = {
+      url: `https://newsapi.org/v2/top-headlines?apiKey=63749fa5401b47c38fc99a7efb35e65a&category=health&q=corona`,
+      method: 'get',
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }
+  }
+  return await new Promise(resolve =>
+    request(headers, (e, r, body) => {
       if (!body) {
         return resolve([]);
       }
@@ -135,16 +148,31 @@ const Query = {
     return { id, data: data };
   },
   getCountryNews: async (parent, { country }, context) => {
-    const cache = myCache.get(country);
+    const cache = await myCache.get(country);
     let id = uuid();
     if (!cache) {
       const ttl = 60 * 60 * 6;
-      let countryCode = countries.getAlpha2Code(country, 'en');
+      let countryCode = await countries.getAlpha2Code(country, 'en');
       let result = await getCountryWiseNews(countryCode);
-      myCache.set(country, result.articles, ttl);
+      if (result.articles && result.articles.length > 0) {
+        myCache.set(country, result.articles, ttl);
+      } else {
+        let globalCache = await myCache.get("global");
+        if (!globalCache) {
+          result = await getCountryWiseNews(null);
+          myCache.set("global", result.articles, ttl);
+        } else {
+          return { id: `${country} cache`, news: globalCache }
+        }
+      }
       return { id, news: result.articles };
     }
-    return { id: "cache", news: cache }
+    return { id: `${country} cache`, news: cache }
+  },
+  getStateWiseRecordOfIndia: async () => {
+    const stateData = await scrapper.stateWiseData();
+    const id = uuid();
+    return { id, state: stateData };
   }
 }
 
