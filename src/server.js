@@ -159,6 +159,9 @@ const resolvers = {
 
 function createLambdaServer() {
   return new ApolloServerLambda({
+    cors: {
+      origin: '*',
+    },
     typeDefs,
     resolvers,
     introspection: true,
@@ -168,6 +171,9 @@ function createLambdaServer() {
 
 function createLocalServer() {
   return new ApolloServer({
+    cors: {
+      origin: '*',
+    },
     typeDefs,
     resolvers,
     introspection: true,
