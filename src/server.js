@@ -3,6 +3,7 @@ const ApolloServer = require('apollo-server').ApolloServer
 const ApolloServerLambda = require('apollo-server-lambda').ApolloServer
 const { gql } = require('apollo-server-lambda');
 const Query = require('./Query');
+const cors = require('cors')
 const typeDefs =
   `type Query {
   deaths: Death
@@ -157,11 +158,14 @@ const resolvers = {
   ...Query
 };
 
+const corsOption = {
+  origin: 'https://covid19-dashboard-6d.netlify.app, https://www.6degreesit.com',
+  credentials: true,
+}
+
 function createLambdaServer() {
   return new ApolloServerLambda({
-    cors: {
-      origin: '*',
-    },
+    cors: corsOption,
     typeDefs,
     resolvers,
     introspection: true,
@@ -169,11 +173,10 @@ function createLambdaServer() {
   });
 }
 
+
 function createLocalServer() {
   return new ApolloServer({
-    cors: {
-      origin: '*',
-    },
+    cors: corsOption,
     typeDefs,
     resolvers,
     introspection: true,
