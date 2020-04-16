@@ -1,6 +1,6 @@
 // const PluginManager = require('covid19-api');
 const PluginManager = require('../covid19/src/api/index');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const request = require('request');
 const countries = require("i18n-iso-countries");
 const NodeCache = require("node-cache");
